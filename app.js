@@ -3,7 +3,7 @@ var methodOverride = require("method-override"),
 express      =  require("express"),
 app = express(); 
 const mongoose   =  require("mongoose");
-mongoose.connect("mongodb://localhost:27017/blog_app",
+mongoose.connect("mongodb+srv://Daniyal_12:sa4GQM@data.fee59.mongodb.net/restful_Blog?retryWrites=true&w=majority",
 {
     useNewUrlParser: true,
     useUnifiedTopology: true
