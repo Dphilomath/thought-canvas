@@ -3,7 +3,7 @@ var methodOverride = require("method-override"),
 express      =  require("express"),
 app = express(); 
 const mongoose   =  require("mongoose");
-mongoose.connect("mongodb+srv://Daniyal_12:sa4GQM@data.fee59.mongodb.net/restful_Blog?retryWrites=true&w=majority",
+mongoose.connect("mongodb://localhost:27017/blog_app",
 {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -135,7 +135,7 @@ app.delete("/blog/:id", function(req, res){
 
 
 
-app.listen(3000, function(){
+app.listen(27017, function(){
     console.log("Blog app is running");
 })
 
