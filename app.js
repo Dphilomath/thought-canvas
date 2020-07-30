@@ -135,7 +135,7 @@ app.delete("/blog/:id", function(req, res){
 
 
 
-app.listen(port, function(){
+app.listen(process.env.PORT, function(){
     console.log("Blog app is running");
 })
 
