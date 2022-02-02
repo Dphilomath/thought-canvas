@@ -2,6 +2,7 @@ require('dotenv').config()
 const mongoose   =  require("mongoose")
 mongoose.connect(process.env.dbURL,
 {
+    useFindAndModify: true,
     useNewUrlParser: true,
     useUnifiedTopology: true
 })

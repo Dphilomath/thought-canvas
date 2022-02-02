@@ -16,3 +16,10 @@ body{
 .menu{
     margin-bottom: 5em;
 }
+.description{
+    display: 2em;
+}
+.right{
+    display: "flex",
+    float: "right"
+}

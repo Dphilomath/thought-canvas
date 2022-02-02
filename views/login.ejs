@@ -1,0 +1,28 @@
+<%- include("partials/header") %>
+
+<div class="ui main text container segment">
+    <div class="ui huge header">
+        Login
+    </div>
+    <form action="/login" method="POST" class="ui form">
+        <div class="field">
+            <label>Email</label>
+            <input required type="email" name="email" placeholder="enter your email" >    
+        </div>
+        
+        <div class="field">
+            <label> Password</label>
+            <input type="password"  required name="password" placeholder="enter your password"></textarea>
+        </div>
+        
+        <div class="field">
+            <button class="ui button" type="submit">Submit</button>      
+        </div>
+       
+    </form>
+</div>
+
+<%- include("partials/footer") %>
+
+
+<script src="ejs.min.js"></script>

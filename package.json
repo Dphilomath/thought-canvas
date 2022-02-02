@@ -5,16 +5,22 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
+    "start": "node app.js",
+    "run-dev": "nodemon app.js"
   },
   "author": "Daniyal",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",
     "dotenv": "^15.0.0",
     "ejs": "^3.1.3",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "method-override": "^3.0.0",
     "mongoose": "^5.9.26"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
   }
 }

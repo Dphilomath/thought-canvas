@@ -1,32 +1,37 @@
 <%- include("partials/header") %>
 <div class="ui main text container segment">
-    <div class="ui huge header">
-        <%= blog.title %>    
+  <div class="ui huge header"><%= blog.title %></div>
+  <div class="ui top attached">
+    <div class="item">
+      <img class="ui centered rounded image" src="<%= blog.image %>" />
+      <div class="content"><%= blog.created.toDateString() %></div>
     </div>
-    <div class="ui top attached">
-        <div class="item">
-            <img class="ui centered rounded image" src= "<%= blog.image %>">
-            <div class = "content">
-                <%= blog.created.toDateString() %>
-            </div>
-            <div class="description">
-                <p><%- blog.body %></p>
-            </div>
-        </div>
-        <form id="delete" action="/blog/<%= blog._id%>?_method=DELETE" method="POST">
-            <button class="ui button red basic" type="submit">Delete</button>
-        </form> 
-        <a class="ui button blue basic" href="/blogs/<%=blog.id%>/edit" >Edit</a>
-       
+    <div class="item">
+      <div class="content"><%= author %></div> 
     </div>
-</div>        
-
-
-
-
-
-
+    <div class="item">
+      <div class="content">
+        <p style="word-wrap: break-word"><%- blog.body %></p>
+      </div>
+    </div>
+    <form
+      id="delete"
+      action="/blogs/<%= blog._id%>?_method=DELETE"
+      method="POST"
+    >
+      <button onclick=`${openDialog}` class="ui button red basic" type="submit">Delete</button>
+    </form>
+    <a class="ui button blue basic" href="/blogs/<%=blog.id%>/edit">Edit</a>
+  </div>
+</div>
 
 
 
 <%- include("partials/footer") %>
+
+<script type="text/javascript"> 
+var windowObject;
+function openDialog(){
+    windowObject = window.open("http://www.cnn.com/", "CNN_WindowName", "popup")
+} 
+</script>

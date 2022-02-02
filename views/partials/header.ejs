@@ -11,5 +11,12 @@
                 <div class="header item"><i class="icon code"></i>Blog Site</div>
                 <a href="/" class="item">Home</a>
                 <a href="/blogs/new" class="item">New Post</a>
+
+                <% if(!loggedIn){%>
+                <div class="header item"><a href="/register">Register</a></div>
+                <div class="header item"><a href="/login">Login</a></div>
+                <% } else{%>
+                    <div class="header item"><a href="/logout">Logout</a></div>
+                <% } %>
             </div>
         </div>

@@ -1,9 +1,7 @@
 var bodyParser = require("body-parser");
 var methodOverride = require("method-override"),
   express = require("express"),
-  mongoose = require("mongoose"),
-  dbConnection = require("./dbConnection"),
-  Blog = require("./models/blog"),
+  dbConnection = require("./dbConnection");
   app = express();
 
 app.use(express.static("public"));
@@ -15,75 +13,10 @@ app.get("/", function (req, res) {
   res.redirect("/blogs");
 });
 
-app.get("/blogs", function (req, res) {
-  Blog.find({}, function (err, blogs) {
-    if (err) {
-      console.log(err);
-    } else {
-      res.render("index", { blogs: blogs });
-    }
-  });
-});
-
-app.get("/blogs/new", function (req, res) {
-  res.render("new");
-});
-
-app.post("/blogs", function (req, res) {
-  Blog.create(req.body, function (err, createdBlog) {
-    if (err) {
-      console.log(err);
-    } else {
-      res.redirect("/");
-    }
-  });
-});
-
-app.get("/blogs/:id", function (req, res) {
-  var id = req.params.id;
-
-  Blog.findById(id, function (err, foundBlog) {
-    if (err) {
-      res.render("/");
-    } else {
-      res.render("show", { blog: foundBlog });
-    }
-  });
-});
-
-app.get("/blogs/:id/edit", function (req, res) {
-  Blog.findById(req.params.id, function (err, foundBlog) {
-    if (err) {
-      console.log(err);
-    } else {
-      res.render("edit", { blog: foundBlog });
-    }
-  });
-});
-
-//UPDATE
-app.put("/blogs/:id", function (req, res) {
-  var id = req.params.id;
-  Blog.findByIdAndUpdate(id, req.body, function (err, updatedBlog) {
-    if (err) {
-      console.log(err);
-    } else {
-      res.redirect("/blogs/" + id);
-    }
-  });
-});
-
-//DELETE
-app.delete("/blog/:id", function (req, res) {
-  Blog.findByIdAndDelete(req.params.id, function (err) {
-    if (err) {
-      res.redirect("could not be deleted");
-    } else {
-      res.redirect("/");
-    }
-  });
-});
-
+app.use("/blogs", require('./controller/router'))
+app.use("/register", require('./controller/register'))
+app.use("/login", require('./controller/login'))
+app.use("/logout", require('./controller/logout'))
 app.listen(process.env.PORT, function () {
-  console.log("Blog app is running");
+  console.log(`Blog app is running on Port: ${process.env.PORT}`);
 });

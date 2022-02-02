@@ -23,8 +23,13 @@
         </div>
       </div>
     </div>
-    <% }) %>
-  </div>
-
+    <% })
+     if(Object.keys(blogs).length === 0){ %>
+      <div class="item">
+        <div class="content">
+            <span>No blogs to show, go ahead, <a href="/blogs/new">add</a> a new blog!</span>
+          </div>
+      <% }%>
+</div>
 
 <%- include("partials/footer") %>
