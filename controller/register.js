@@ -1,7 +1,8 @@
 const checkToken = require('../middleware/check');
 
-require('dotenv').config()
-
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
 const router = require('express').Router(),
 User = require('../models/User'),
 bcrypt = require('bcrypt'),
