@@ -1,141 +1,89 @@
-var bodyParser   =  require("body-parser")
+var bodyParser = require("body-parser");
 var methodOverride = require("method-override"),
-express      =  require("express"),
-app = express(); 
-const mongoose   =  require("mongoose");
-mongoose.connect("mongodb+srv://Daniyal_12:sa4GQM@data.fee59.mongodb.net/restful_Blog?retryWrites=true&w=majority",
-{
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-})
-.then(() => console.log("connected to Blog DB"))
-.catch(error => console.log(error.message));
+  express = require("express"),
+  mongoose = require("mongoose"),
+  dbConnection = require("./dbConnection"),
+  Blog = require("./models/blog"),
+  app = express();
 
-
-app.use(express.static('public'));
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(methodOverride("_method"))
+app.use(express.static("public"));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(methodOverride("_method"));
 app.set("view engine", "ejs");
 
+app.get("/", function (req, res) {
+  res.redirect("/blogs");
+});
 
+app.get("/blogs", function (req, res) {
+  Blog.find({}, function (err, blogs) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.render("index", { blogs: blogs });
+    }
+  });
+});
 
-var blogSchema = new mongoose.Schema({
-    title: String,
-    image: String,
-    body: String,
-    created: {
-        type: Date, default: Date.now
-    } 
-})
+app.get("/blogs/new", function (req, res) {
+  res.render("new");
+});
 
-var Blog = mongoose.model("Blog", blogSchema);
+app.post("/blogs", function (req, res) {
+  Blog.create(req.body, function (err, createdBlog) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.redirect("/");
+    }
+  });
+});
 
+app.get("/blogs/:id", function (req, res) {
+  var id = req.params.id;
 
-app.get("/", function(req, res){
-    res.redirect("/blogs");
-})
+  Blog.findById(id, function (err, foundBlog) {
+    if (err) {
+      res.render("/");
+    } else {
+      res.render("show", { blog: foundBlog });
+    }
+  });
+});
 
-
-app.get("/blogs", function(req, res){
-    Blog.find({}, function(err, blogs){
-        if(err){
-            console.log(err);
-        }
-        else{
-            res.render("index", {blogs:blogs})
-        }
-    })
-})
-
-app.get("/blogs/new", function(req, res){
-    res.render("new");
-})
-
-app.post("/blogs", function(req, res){
-    
-    Blog.create(req.body, function(err, createdBlog){
-        if(err){
-            console.log(err);
-        }
-        else{
-         res.redirect("/"); 
-        }
-    })
-})
-
-app.get("/blogs/:id", function(req, res){
-    var id=req.params.id;
-    
-    Blog.findById(id, function(err, foundBlog){
-        if(err){
-            res.render("/");
-        }
-        else{
-            res.render("show",{blog:foundBlog});
-        }
-    })
-})
-
-
-app.get("/blogs/:id/edit", function(req, res){
-    Blog.findById(req.params.id, function(err, foundBlog){
-        if(err){
-            console.log(err)
-        }
-        else{
-            res.render("edit", {blog:foundBlog})
-        }
-    })
-})
+app.get("/blogs/:id/edit", function (req, res) {
+  Blog.findById(req.params.id, function (err, foundBlog) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.render("edit", { blog: foundBlog });
+    }
+  });
+});
 
 //UPDATE
-app.put("/blogs/:id", function(req, res){
-    var id = req.params.id;
-    Blog.findByIdAndUpdate(id, req.body, function(err, updatedBlog){
-        if(err){
-            console.log(err);
-        }
-        else {
-            res.redirect("/blogs/" + id)
-        }
-    })
-})
+app.put("/blogs/:id", function (req, res) {
+  var id = req.params.id;
+  Blog.findByIdAndUpdate(id, req.body, function (err, updatedBlog) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.redirect("/blogs/" + id);
+    }
+  });
+});
 
 //DELETE
+app.delete("/blog/:id", function (req, res) {
+  Blog.findByIdAndDelete(req.params.id, function (err) {
+    if (err) {
+      res.redirect("could not be deleted");
+    } else {
+      res.redirect("/");
+    }
+  });
+});
 
-app.delete("/blog/:id", function(req, res){
-    Blog.findByIdAndDelete(req.params.id, function(err){
-        if(err){
-            res.redirect("could not be deleted");
-        }
-        else{
-            res.redirect("/")
-        }
-    })
-})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-app.listen(process.env.PORT, function(){
-    console.log("Blog app is running");
-})
-
+app.listen(process.env.PORT, function () {
+  console.log("Blog app is running");
+});

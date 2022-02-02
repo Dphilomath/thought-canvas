@@ -16,7 +16,7 @@
         <form id="delete" action="/blog/<%= blog._id%>?_method=DELETE" method="POST">
             <button class="ui button red basic" type="submit">Delete</button>
         </form> 
-        <a class="ui button blue basic" >Edit</a>
+        <a class="ui button blue basic" href="/blogs/<%=blog.id%>/edit" >Edit</a>
        
     </div>
 </div>        
