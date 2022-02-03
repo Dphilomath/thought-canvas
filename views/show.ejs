@@ -20,20 +20,19 @@
       action="/blogs/<%= blog._id%>?_method=DELETE"
       method="POST"
     >
-      <button class="ui button red basic" type="submit">Delete</button>
+      <button class="ui button red basic delete" type="submit">Delete</button>
     </form>
     <a class="ui button blue basic" href="/blogs/<%=blog.id%>/edit">Edit</a>
     <% } %>
   </div>
 </div>
 
-
-
 <%- include("partials/footer") %>
 
-<script type="text/javascript"> 
-var windowObject;
-function openDialog(){
-    windowObject = window.open("http://www.cnn.com/", "CNN_WindowName", "popup")
-} 
+<script src="ejs.min.js"></script>
+<script> 
+document.getElementById("delete").addEventListener("click", (event)=>{
+  var result; 
+  return window.confirm("Are you sure? the blog can't be recovered once deleted")
+})
 </script>
