@@ -20,7 +20,7 @@
       action="/blogs/<%= blog._id%>?_method=DELETE"
       method="POST"
     >
-      <button class="ui button red basic delete" type="submit">Delete</button>
+      <button onclick="return confirm('Are you sure? the blog can\'t be recovered once deleted');" class="ui button red basic delete" type="submit">Delete</button>
     </form>
     <a class="ui button blue basic" href="/blogs/<%=blog.id%>/edit">Edit</a>
     <% } %>
@@ -30,9 +30,3 @@
 <%- include("partials/footer") %>
 
 <script src="ejs.min.js"></script>
-<script> 
-document.getElementById("delete").addEventListener("click", (event)=>{
-  var result; 
-  return window.confirm("Are you sure? the blog can't be recovered once deleted")
-})
-</script>
