@@ -58,9 +58,11 @@ router.post("/", async (req, res) => {
       user.token = token;
   
       // return new user
-      res.status(201).json(user);
+      // res.status(201).json(user);
+      return res.status(201).redirect("/login")
     } catch (err) {
       console.log(err);
+      return res.status(400).json(err)
     }
   });
 
