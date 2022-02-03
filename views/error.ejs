@@ -3,26 +3,11 @@
   <div class="ui huge header">Uh-huh</div>
   <div class="ui top attached">
     <div class="item">
-      <img class="ui centered rounded image" src="https://www.elegantthemes.com/blog/wp-content/uploads/2020/02/000-404.png" />
+      <img class="ui centered rounded image" src="https://openwebsolutions.in/blog/wp-content/uploads/2019/01/mistake-3085712_1920.jpg" />
     </div>
     <div class="item">
-      <div class="content"><%=error%></div> 
+      <div class="content"><%=error%></div>
     </div>
-    <div class="item">
-      <div class="content">
-        <p style="word-wrap: break-word"><%- blog.body %></p>
-      </div>
-    </div>
-    <% if(authorised==true){ %>
-    <form
-      id="delete"
-      action="/blogs/<%= blog._id%>?_method=DELETE"
-      method="POST"
-    >
-      <button class="ui button red basic" type="submit">Delete</button>
-    </form>
-    <a class="ui button blue basic" href="/blogs/<%=blog.id%>/edit">Edit</a>
-    <% } %>
   </div>
 </div>
 
