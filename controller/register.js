@@ -4,7 +4,7 @@ if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
 const router = require('express').Router(),
-User = require('../models/User'),
+User = require('../models/user'),
 bcrypt = require('bcrypt'),
 jwt = require('jsonwebtoken')
 

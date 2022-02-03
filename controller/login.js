@@ -1,7 +1,7 @@
 const checkToken = require('../middleware/check');
 
 const router = require('express').Router(),
-    User = require("./../models/User"),
+    User = require("./../models/user"),
     bcrypt = require("bcrypt"),
     jwt = require("jsonwebtoken")
 

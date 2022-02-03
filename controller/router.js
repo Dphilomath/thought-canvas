@@ -1,11 +1,11 @@
 var bodyParser = require("body-parser");
 const verifyToken = require("../middleware/auth");
 const checkToken = require("../middleware/check");
-const User = require("../models/User");
+const User = require("../models/user");
 var methodOverride = require("method-override"),
   express = require("express"),
   router = express.Router(),
-  Blog = require("../models/Blog"),
+  Blog = require("../models/blog"),
   app = express();
 
 
