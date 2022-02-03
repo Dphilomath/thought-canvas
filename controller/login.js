@@ -5,7 +5,7 @@ const router = require('express').Router(),
     bcrypt = require("bcrypt"),
     jwt = require("jsonwebtoken")
 
-router.get('/', checkToken, async (req, res)=>{
+router.get('/', async (req, res)=>{
     if(req.loggedIn==true) return res.redirect("/")
     return res.render("login", {loggedIn:req.loggedIn})
 })

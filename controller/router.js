@@ -1,64 +1,74 @@
-var bodyParser = require("body-parser");
-const verifyToken = require("../middleware/auth");
-const checkToken = require("../middleware/check");
-const User = require("../models/user");
-var methodOverride = require("method-override"),
+const verifyToken = require("../middleware/auth"),
+  authorise = require("../middleware/authorise"),
+  checkToken = require("../middleware/check"),
+  User = require("../models/user"),
+  methodOverride = require("method-override"),
   express = require("express"),
   router = express.Router(),
-  Blog = require("../models/blog"),
-  app = express();
-
-
-router.get("/", checkToken, function (req, res) {
+  Blog = require("../models/blog");
+  
+router.get("/", function (req, res) {
   Blog.find({}, function (err, blogs) {
     if (err) {
       console.log(err);
-      res.json(err)
+      res.json(err);
     } else {
-      res.render("index", { blogs: blogs, loggedIn : req.loggedIn });
+      res.render("index", { blogs: blogs, loggedIn: req.loggedIn });
     }
   });
 });
 
-router.get("/new", checkToken, function (req, res) {
-  res.render("new", {loggedIn : req.loggedIn});
+router.get("/new", verifyToken, function (req, res) {
+  res.render("new", { loggedIn: req.loggedIn });
 });
 
-router.post("/",verifyToken, function (req, res) {
-  Blog.create({...req.body, author: req.user.user_id}, function (err, createdBlog) {
-    if (err) {
-      console.log(err);
-    } else {
-      res.redirect("/");
+router.post("/", verifyToken, function (req, res) {
+  Blog.create(
+    { ...req.body, author: req.user.user_id },
+    function (err, createdBlog) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.redirect("/blogs/"+createdBlog._id);
+      }
     }
-  });
+  );
 });
 
-router.get("/:id", checkToken, function (req, res) {
+router.get("/:id", authorise, function (req, res) {
   var id = req.params.id;
-
+  let authorised = false;
   Blog.findById(id, function (err, foundBlog) {
     if (err) {
-      res.send("Blog not found");
+      return res.send("Blog not found");
     } else {
-        User.findById(foundBlog.author, (err, found)=>{
-          if(err){
-            console.log(err)
-            return res.status(400).redirect("/new")
-          }else{
-            return res.render("show", { blog: foundBlog, loggedIn:req.loggedIn, author: found.first_name });
-          }
-        })
+      if (req.loggedIn && req.user.user_id == foundBlog.author)
+        authorised = true;
+      User.findById(foundBlog.author, (err, found) => {
+        if (err) {
+          console.log(err);
+          return res.status(400).send("Could not fetch author");
+        } else {
+          return res.render("show", {
+            blog: foundBlog,
+            loggedIn: req.loggedIn,
+            author: found.first_name,
+            authorised: authorised,
+          });
+        }
+      });
     }
   });
 });
 
-router.get("/:id/edit", checkToken, verifyToken,  function (req, res) {
+router.get("/:id/edit", verifyToken, function (req, res) {
   Blog.findById(req.params.id, function (err, foundBlog) {
     if (err) {
       console.log(err);
     } else {
-      res.render("edit", { blog: foundBlog, loggedIn: req.loggedIn });
+      if (req.user.user_id == foundBlog.author)
+        res.render("edit", { blog: foundBlog, loggedIn: req.loggedIn });
+      else res.render("Unauthorized", { loggedIn: req.loggedIn });
     }
   });
 });
@@ -76,14 +86,17 @@ router.put("/:id", verifyToken, function (req, res) {
 });
 
 //delete
-router.delete("/:id",verifyToken, function (req, res) {
-  Blog.findByIdAndDelete(req.params.id, function (err) {
-    if (err) {
-      res.send("Error: Could not be deleted");
-    } else {
-      res.redirect("/blogs/");
-    }
-  });
+router.delete("/:id", verifyToken, async function (req, res) {
+  let foundBlog = await Blog.findById(req.params.id);
+  if (req.user.user_id == foundBlog.author) {
+    Blog.findByIdAndDelete(req.params.id, function (err) {
+      if (err) {
+        res.send("Error: Could not be deleted");
+      } else {
+        res.redirect("/blogs/");
+      }
+    });
+  } else res.render("Unauthorized", { loggedIn: req.loggedIn });
 });
 
 module.exports = router;

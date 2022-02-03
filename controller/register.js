@@ -9,7 +9,7 @@ bcrypt = require('bcrypt'),
 jwt = require('jsonwebtoken')
 
 
-router.get('/', checkToken,  async(req, res)=>{
+router.get('/', async (req, res) => {
 
   if(req.loggedIn==true) return res.redirect("/")
   res.render("register", {loggedIn: req.loggedIn})

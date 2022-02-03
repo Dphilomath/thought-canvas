@@ -19,7 +19,10 @@ body{
 .description{
     display: 2em;
 }
-.right{
-    display: "flex",
-    float: "right"
+#notfound{
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    align-items: center;
+    justify-content: center;
 }
