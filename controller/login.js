@@ -1,5 +1,3 @@
-const checkToken = require('../middleware/check');
-
 const router = require('express').Router(),
     User = require("./../models/user"),
     bcrypt = require("bcrypt"),
@@ -29,7 +27,7 @@ router.post("/", async (req, res) => {
           { user_id: user._id, email },
           process.env.TOKEN_KEY,
           {
-            expiresIn: "2h",
+            expiresIn: "1h",
           }
         );
   
@@ -38,8 +36,8 @@ router.post("/", async (req, res) => {
   
         // user
         res.cookie('authorization', token, {
-            maxAge: new Date() * 0.001 + 300,
-            secure: true,
+            expires: new Date(Date.now + 3600000),
+            secure: true
           });
         // return res.status(200).json(user);
         return res.status(200).redirect("/")

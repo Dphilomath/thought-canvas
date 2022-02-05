@@ -30,11 +30,8 @@
 <%- include("partials/footer") %>
 
 
-<script src="ejs.min.js"></script>
-
 <script>
 const url = document.getElementById("url");
-console.log(url)
 url.addEventListener("input", function (event) {
   if (url.validity.patternMismatch) {
     url.setCustomValidity("Please enter a valid image url");

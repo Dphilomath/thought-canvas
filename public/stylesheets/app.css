@@ -26,8 +26,3 @@ body{
     align-items: center;
     justify-content: center;
 }
-.auth{
-    display: flex;
-    flex-direction: row;
-    float: right;
-}

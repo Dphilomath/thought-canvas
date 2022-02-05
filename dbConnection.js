@@ -4,9 +4,10 @@ if (process.env.NODE_ENV !== 'production') {
 const mongoose   =  require("mongoose")
 mongoose.connect(process.env.dbURL,
 {
-    useFindAndModify: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
-.then(() => console.log("connected to Blog DB"))
+.then(() => console.log("Connected to Blog DB"))
 .catch(error => console.log(error.message));
