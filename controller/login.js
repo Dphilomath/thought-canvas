@@ -4,8 +4,8 @@ const router = require('express').Router(),
     jwt = require("jsonwebtoken")
 
 router.get('/', async (req, res)=>{
-    if(req.loggedIn==true) return res.redirect("/")
-    return res.render("login", {loggedIn:req.loggedIn})
+    if(res.locals.loggedIn==true) return res.redirect("/")
+    return res.render("login")
 })
 router.post("/", async (req, res) => {
 
@@ -21,7 +21,9 @@ router.post("/", async (req, res) => {
       // Validate if user exist in our database
       const user = await User.findOne({ email });
   
-      if (user && (await bcrypt.compare(password, user.password))) {
+      if(user!=null && !user.active) return res.status(403).render("message",{message: "Please verify your email!"})
+      
+      if ( user && (await bcrypt.compare(password, user.password))) {
         // Create token
         const token = jwt.sign(
           { user_id: user._id, email },
@@ -32,7 +34,8 @@ router.post("/", async (req, res) => {
         );
   
         // save user token
-        user.token = token;
+        user.token = token
+        await user.save()
   
         // user
         res.cookie('authorization', token, {
@@ -42,7 +45,7 @@ router.post("/", async (req, res) => {
         // return res.status(200).json(user);
         return res.status(200).redirect("/")
       }
-      res.status(400).send("Invalid Credentials");
+      res.status(403).render("message",{message: "Invalid Credentials"});
     } catch (err) {
       console.log(err);
     }

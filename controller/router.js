@@ -6,8 +6,9 @@
   router.use("/register", require("./register"));
   router.use("/login", require("./login"));
   router.use("/logout", require("./logout"));
+  router.use("/verify", require('./verify'))
   router.get("/err", (req, res) => {
-    res.render("error", { loggedIn: req.loggedIn, error: req.err });
+    res.render("error");
   });
 
   router.use((req, res) => {

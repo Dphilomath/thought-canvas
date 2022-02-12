@@ -4,7 +4,8 @@ var bodyParser = require("body-parser"),
   dbConnection = require("./dbConnection"),
   checkToken = require("./middleware/check"),
   app = express(),
-  router = require("./controller/router")
+  router = require("./controller/router"),
+  mailer = require("./util/nodemailer")
 
 
 app.set("view engine", "ejs");

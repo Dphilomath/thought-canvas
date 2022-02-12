@@ -12,13 +12,13 @@ router.get("/", function (req, res) {
       console.log(err);
       res.json(err);
     } else {
-      res.render("index", { blogs: blogs, loggedIn: req.loggedIn });
+      res.render("index", { blogs: blogs });
     }
   });
 });
 
 router.get("/new", verifyToken, function (req, res) {
-  res.render("new", { loggedIn: req.loggedIn });
+  res.render("new");
 });
 
 router.post("/", verifyToken, function (req, res) {
@@ -40,7 +40,7 @@ router.get("/:id", authorise, async function (req, res) {
     let authorised = false;
     let foundBlog = await Blog.findById(id).exec();
     if (foundBlog != null) {
-      if (req.loggedIn && req.user.user_id == foundBlog.author)
+      if (res.locals.loggedIn && req.user.user_id == foundBlog.author)
         authorised = true;
     } else return res.status(404).redirect("/404");
 
@@ -48,7 +48,6 @@ router.get("/:id", authorise, async function (req, res) {
 
     return res.render("show", {
       blog: foundBlog,
-      loggedIn: req.loggedIn,
       author: author.first_name,
       authorised: authorised,
     });
@@ -64,8 +63,8 @@ router.get("/:id/edit", verifyToken, function (req, res) {
       console.log(err);
     } else {
       if (req.user.user_id == foundBlog.author)
-        res.render("edit", { blog: foundBlog, loggedIn: req.loggedIn });
-      else res.render("Unauthorized", { loggedIn: req.loggedIn });
+        res.render("edit", { blog: foundBlog });
+      else res.render("Unauthorized");
     }
   });
 });
@@ -88,12 +87,12 @@ router.delete("/:id", verifyToken, async function (req, res) {
   if (req.user.user_id == foundBlog.author) {
     Blog.findByIdAndDelete(req.params.id, function (err) {
       if (err) {
-        res.send("Error: Could not be deleted");
+        res.render("message", {message : "Error: Could not be deleted"});
       } else {
         res.redirect("/blogs/");
       }
     });
-  } else res.render("Unauthorized", { loggedIn: req.loggedIn });
+  } else res.render("Unauthorized");
 });
 
 module.exports = router;
