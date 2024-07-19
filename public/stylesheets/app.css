@@ -20,6 +20,46 @@ body{
     display: 2em;
 }
 .right{
-    display: "flex",
-    float: "right"
+    float: inline-end;
 }
+  
+  .website-name:hover {
+    background-color: #ff7f50; /* Darker background color on hover */
+    color: #fff; /* Text color on hover */
+  }
+
+  
+  .website-name::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: #ff6347; /* Underline color */
+    position: absolute;
+    bottom: -5px; /* Position below the text */
+    left: 0;
+    transition: width 0.3s ease; /* Smooth width transition */
+  }
+  
+  .website-name:hover::after {
+    width: 110%; /* Extend width on hover */
+  }
+
+.website-name {
+    font-family: 'Lato', sans-serif; /* Select a clean, readable font */
+    font-size: 20px; /* Adjust size as needed */
+    font-weight: bold; 
+    color: #fff; /* Text color  */
+    text-decoration: none;
+    text-transform: uppercase;
+    background-color: #ff6347; /* Background color  */
+    padding: 10px 20px; /* Padding around the text */
+    border-radius: 25px; /* Rounded corners */
+    transition: background-color 0.3s ease; /* Smooth background transition */
+    display: inline-block;
+  } 
+  
+  .right.menu .item {
+    margin-left: 10px; /* Adjust margin as needed */
+}
+  

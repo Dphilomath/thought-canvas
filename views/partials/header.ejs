@@ -8,15 +8,22 @@
     <body>
         <div class="ui fixed inverted menu">
             <div class="ui container">
-                <div class="header item"><i class="icon code"></i>Blog Site</div>
+                <span class="header item website-name"><i class="pencil alternate icon"></i><a href="/">
+                    ThoughtCanvas
+                </a></span>
                 <a href="/" class="item">Home</a>
                 <a href="/blogs/new" class="item">New Post</a>
 
+                <div class="right menu">
                 <% if(!loggedIn){%>
-                <div class="header item"><a href="/register">Register</a></div>
-                <div class="header item"><a href="/login">Login</a></div>
+                    <div class="header item right"><a href="/register">Register</a></div>
+                    <div class="header item right"><a href="/login">Login</a></div>
+               
                 <% } else{%>
-                    <div class="header item"><a href="/logout">Logout</a></div>
+                    <div class="header item right"><a href="/logout">Logout</a></div>
                 <% } %>
+                </div>
             </div>
         </div>
+    </body>
+</html>
