@@ -6,7 +6,7 @@ const router = require('express').Router(),
     jwt = require("jsonwebtoken")
 
 router.get('/', checkToken, async (req, res)=>{
-    if(req.loggedIn==true) return res.redirect("/")
+    if(req.loggedIn) return res.redirect("/")
     return res.render("login", {loggedIn:req.loggedIn})
 })
 router.post("/", async (req, res) => {

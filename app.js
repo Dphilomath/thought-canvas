@@ -1,5 +1,5 @@
-var bodyParser = require("body-parser");
-var methodOverride = require("method-override"),
+const bodyParser = require("body-parser");
+const methodOverride = require("method-override"),
   express = require("express"),
   dbConnection = require("./dbConnection");
   app = express();
@@ -17,6 +17,6 @@ app.use("/blogs", require('./controller/router'))
 app.use("/register", require('./controller/register'))
 app.use("/login", require('./controller/login'))
 app.use("/logout", require('./controller/logout'))
-app.listen(process.env.PORT, function () {
+app.listen(process.env.PORT || 3000, function () {
   console.log(`Blog app is running on Port: ${process.env.PORT}`);
 });
