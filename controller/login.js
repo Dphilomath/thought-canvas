@@ -6,8 +6,9 @@ const router = require('express').Router(),
     jwt = require("jsonwebtoken")
 
 router.get('/', checkToken, async (req, res)=>{
+  const { loginFailed=false } = req.query
     if(req.loggedIn) return res.redirect("/")
-    return res.render("login", {loggedIn:req.loggedIn})
+    return res.render("login", {loggedIn:req.loggedIn, loginFailed})
 })
 router.post("/", async (req, res) => {
 
@@ -41,10 +42,9 @@ router.post("/", async (req, res) => {
             maxAge: new Date() * 0.001 + 300,
             secure: true,
           });
-        // return res.status(200).json(user);
         return res.status(200).redirect("/")
       }
-      res.status(400).send("Invalid Credentials");
+      res.status(401).redirect('/login?loginFailed=true');
     } catch (err) {
       console.log(err);
     }

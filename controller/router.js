@@ -13,7 +13,7 @@ router.get("/", checkToken, function (req, res) {
   Blog.find({}, function (err, blogs) {
     if (err) {
       console.log(err);
-      res.json(err)
+      res.render("index", { blogs: [], loggedIn: false})
     } else {
       res.render("index", { blogs: blogs, loggedIn : req.loggedIn });
     }

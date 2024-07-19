@@ -18,6 +18,13 @@
         <div class="field">
             <button class="ui button" type="submit">Submit</button>      
         </div>
+        <% if (loginFailed) { %>
+            <div class="ui negative message">
+                <i class="close icon"></i>
+                <p>
+                    Invalid Credentials
+                </p>
+        <% } %>
        
     </form>
 </div>
@@ -26,3 +33,13 @@
 
 
 <script src="ejs.min.js"></script>
+<script>
+    $('.negative .close')
+  .on('click', function() {
+    $(this)
+      .closest('.negative')
+      .transition('fade')
+    ;
+  })
+;
+</script>
