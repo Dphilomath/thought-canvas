@@ -21,9 +21,10 @@
         <% if (loginFailed) { %>
             <div class="ui negative message">
                 <i class="close icon"></i>
-                <p>
-                    Invalid Credentials
-                </p>
+                <div class="header">
+                    Login failed!
+                  </div>
+                    Please check your credentials
         <% } %>
        
     </form>
@@ -33,13 +34,17 @@
 
 
 <script src="ejs.min.js"></script>
-<script>
+<script
+  src="https://code.jquery.com/jquery-3.7.1.min.js"
+  integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+  crossorigin="anonymous"></script>
+  
+  <script>
     $('.negative .close')
   .on('click', function() {
     $(this)
       .closest('.negative')
-      .transition('fade')
-    ;
+      .fadeOut(500)    ;
   })
 ;
 </script>
